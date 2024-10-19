@@ -6,7 +6,7 @@ const Tezos = new TezosToolkit('https://ghostnet.smartpy.io');
 let wallet = null;
 
 // Replace with your actual deployed contract address
-const contractAddress = 'KT1Gp9JCrfrxZP8TZW3y4WkCr1EPbUtCTQx3'; 
+const contractAddress = 'KT1REqraefneBBfTqRATmgJLnuNm3FHkReGW'; 
 
 // Connect Temple Wallet function
 export const connectWallet = async () => {
@@ -29,19 +29,23 @@ export const connectWallet = async () => {
   }
 };
 
-// Start a Campaign function (Interact with your smart contract)
 export const startCampaign = async (campaign_name, target_amount, campaign_id) => {
   try {
     // Ensure the wallet is connected before interacting with the contract
     if (!wallet) {
       throw new Error('Wallet is not connected. Please connect your Temple Wallet.');
     }
-
+     console.log(campaign_name, target_amount, campaign_id);
     // Get the contract instance
     const contract = await Tezos.wallet.at(contractAddress);
 
+    // Get the wallet address of the user creating the campaign
+    const campaign_address = await wallet.getPKH(); 
+    console.log(campaign_address)
+    // Get the connected wallet address
+
     // Call the smart contract's 'start_campaign' entrypoint with the parameters
-    const op = await contract.methods.start_campaign(campaign_name, target_amount, campaign_id).send();
+    const op = await contract.methods.start_campaign(campaign_address,campaign_id,campaign_name,target_amount).send();
 
     // Wait for confirmation of the transaction
     await op.confirmation();

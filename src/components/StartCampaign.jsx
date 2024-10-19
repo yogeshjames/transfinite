@@ -13,12 +13,18 @@ const StartCampaign = () => {
     try {
       // Ensure that campaign_id is a valid integer
       const campaignIdInt = parseInt(campaignId);
-      if (isNaN(campaignIdInt)) {
-        throw new Error('Campaign ID must be a valid integer.');
+      const goalAmountInt = parseInt(goalAmount); // Parse the goal amount
+      
+      // Validate input
+      if (isNaN(campaignIdInt) || isNaN(goalAmountInt)) {
+        throw new Error('Campaign ID and Goal Amount must be valid integers.');
+      }
+      if (!title.trim()) {
+        throw new Error('Campaign Title cannot be empty.');
       }
 
       // Call the smart contract function to start a campaign
-      const operationHash = await startCampaign(campaignIdInt, title, parseInt(goalAmount));
+      const operationHash = await startCampaign(title, goalAmountInt, campaignIdInt);
       setOpHash(operationHash);
     } catch (error) {
       console.error('Failed to start campaign:', error.message);

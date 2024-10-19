@@ -1,23 +1,18 @@
+// src/App.jsx
 import React from 'react';
 import Wallet from './components/Wallet';
 import StartCampaign from './components/StartCampaign';
-import Donation from './components/Donation';
+import Donate from './components/Donate';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <h1>Tezos Donation Platform</h1>
-      
-      {/* Connect Wallet */}
+    <div>
+      <h1>Donation Platform</h1>
       <Wallet />
-
-      {/* Start a Campaign */}
       <StartCampaign />
-
-      {/* Make a Donation */}
-      <Donation />
+      <Donate />
     </div>
   );
-}
+};
 
 export default App;
