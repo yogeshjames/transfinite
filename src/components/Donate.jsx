@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { makeDonation } from '../utils/tezos';
 
-const Donation = () => {
+const Donate = () => {
   const [campaignId, setCampaignId] = useState('');
   const [amount, setAmount] = useState('');
+  const [campaignAddress, setCampaignAddress] = useState(''); // State for campaign address
   const [loading, setLoading] = useState(false);
   const [opHash, setOpHash] = useState(null);
 
@@ -20,7 +21,7 @@ const Donation = () => {
       }
 
       // Call the smart contract function to make a donation
-      const operationHash = await makeDonation(campaignIdInt, donationAmount);
+      const operationHash = await makeDonation(campaignIdInt, donationAmount, campaignAddress); // Pass campaignAddress
       setOpHash(operationHash);
     } catch (error) {
       console.error('Failed to make donation:', error.message);
@@ -43,6 +44,12 @@ const Donation = () => {
         value={amount} 
         onChange={(e) => setAmount(e.target.value)} 
       />
+      <input 
+        type="text" 
+        placeholder="Campaign Address" 
+        value={campaignAddress} 
+        onChange={(e) => setCampaignAddress(e.target.value)} // Update campaign address state
+      />
       <button onClick={handleDonation} disabled={loading}>
         {loading ? 'Processing Donation...' : 'Donate'}
       </button>
@@ -51,4 +58,4 @@ const Donation = () => {
   );
 };
 
-export default Donation;
+export default Donate;

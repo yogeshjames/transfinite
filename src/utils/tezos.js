@@ -6,7 +6,7 @@ const Tezos = new TezosToolkit('https://ghostnet.smartpy.io');
 let wallet = null;
 
 // Replace with your actual deployed contract address
-const contractAddress = 'KT1REqraefneBBfTqRATmgJLnuNm3FHkReGW'; 
+const contractAddress = 'KT1ST7nQQ2mRreMfmsNnovChtfktTuf6t38M'; 
 
 // Connect Temple Wallet function
 export const connectWallet = async () => {
@@ -45,7 +45,7 @@ export const startCampaign = async (campaign_name, target_amount, campaign_id) =
     // Get the connected wallet address
 
     // Call the smart contract's 'start_campaign' entrypoint with the parameters
-    const op = await contract.methods.start_campaign(campaign_address,campaign_id,campaign_name,target_amount).send();
+    const op = await contract.methods.start_campaign(campaign_address,campaign_id,campaign_name,target_amount*1000000).send();
 
     // Wait for confirmation of the transaction
     await op.confirmation();
@@ -58,8 +58,9 @@ export const startCampaign = async (campaign_name, target_amount, campaign_id) =
   }
 };
 
-// Make a Donation function (Interact with your smart contract)
-export const makeDonation = async (campaign_id, amount) => {
+
+//
+export const makeDonation = async (campaign_id, amount, campaign_address) => {
   try {
     // Ensure the wallet is connected before interacting with the contract
     if (!wallet) {
@@ -69,8 +70,17 @@ export const makeDonation = async (campaign_id, amount) => {
     // Get the contract instance
     const contract = await Tezos.wallet.at(contractAddress);
 
-    // Call the smart contract's 'donate' entrypoint with the donation amount in tez
-    const op = await contract.methods.donate(campaign_id).send({ amount });
+    // Get the sender's address
+    const sender = await wallet.getPKH();
+
+    // Log the values to debug
+    console.log("Campaign ID:", campaign_id);
+    console.log("Amount:", amount);
+    console.log("Campaign Address:", campaign_address);
+    console.log("Sender Address:", sender);
+
+    // Call the smart contract's 'donate' entrypoint with the individual parameters
+    const op = await contract.methods.donate( amount * 1000000,campaign_address, campaign_id,sender, ).send(); // Convert amount to mutez
 
     // Wait for confirmation of the transaction
     await op.confirmation();
