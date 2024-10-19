@@ -78,6 +78,16 @@ app.get('/campaigns/available', async (req, res) => {
   }
 });
 
+app.get('/api/campaigns', async (req, res) => {
+  try {
+      const campaigns = await Campaign.find({}, { campaign_id: 1 }); // Fetch only campaignId
+      res.json(campaigns);
+      console.log(campaigns);
+  } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch campaigns' });
+  }
+});
+
 // Get Campaign by ID (GET /campaigns/:id)
 app.get('/campaigns/:id', async (req, res) => {
   const campaignId = parseInt(req.params.id);

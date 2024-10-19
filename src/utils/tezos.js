@@ -29,6 +29,58 @@ export const connectWallet = async () => {
   }
 };
 
+const BIG_MAP_ID = 446260; // Your big_map ID from the contract
+
+// Fetch campaign data by campaign_id from big map
+// Replace the URL with the proxy path // Make sure this is your actual big map ID
+
+// Function to parse Michelson data
+const parseCampaignData = (michelsonData) => {
+  return michelsonData.map((item) => {
+    const args = item.prim === "Pair" ? item.args : [];
+
+    return {
+      creator: args[0]?.string || '', // Creator's Tezos address
+      campaignId: args[1]?.int || '',  // Campaign ID
+      description: args[2]?.string || '', // Description of the campaign
+      participants: (args[3] || []).map((p) => p.string), // List of participant addresses
+      fundingGoal: parseInt(args[4]?.int, 10) || 0, // Funding goal
+      currentFunding: parseInt(args[5]?.int, 10) || 0, // Current funding
+    };
+  });
+};
+
+// Function to fetch campaign data from the Tezos API
+export const fetchCampaignById = async (campaignId) => {
+  try {
+    // Fetch the data from the proxy path /tezos-api
+    const response = await fetch(`/tezos-api/chains/main/blocks/head/context/big_maps/${BIG_MAP_ID}`);
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch campaign data');
+    }
+
+    // Get the Michelson data
+    const michelsonData = await response.json();
+
+    // Parse the Michelson data
+    const campaigns = parseCampaignData(michelsonData);
+
+    // Filter and find the campaign by campaignId
+    const campaign = campaigns.find((c) => c.campaignId === campaignId);
+
+    if (!campaign) {
+      throw new Error(`Campaign with ID ${campaignId} not found`);
+    }
+
+    return campaign;
+  } catch (error) {
+    console.error('Error fetching campaign data:', error);
+    throw error;
+  }
+};
+
+
 export const startCampaign = async (campaign_name, target_amount, campaign_id) => {
   try {
     // Ensure the wallet is connected before interacting with the contract

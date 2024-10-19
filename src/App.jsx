@@ -3,7 +3,8 @@ import React from 'react';
 import Wallet from './components/Wallet';
 import StartCampaign from './components/StartCampaign';
 import Donate from './components/Donate';
-
+import Fetch from './components/Fetch'
+import CampaignTable from './components/CampaignTable';
 const App = () => {
   return (
     <div>
@@ -11,6 +12,8 @@ const App = () => {
       <Wallet />
       <StartCampaign />
       <Donate />
+      
+      //<CampaignTable />
     </div>
   );
 };
