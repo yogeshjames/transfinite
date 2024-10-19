@@ -75,7 +75,7 @@ const StartCampaign = () => {
       <button onClick={handleStartCampaign} disabled={loading}>
         {loading ? 'Starting Campaign...' : 'Start Campaign'}
       </button>
-      {adress && <p>Campaign started! Operation hash:</p>}
+      {adress && <p>Campaign started!</p>}
     </div>
   );
 };

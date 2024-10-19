@@ -51,7 +51,7 @@ export const startCampaign = async (campaign_name, target_amount, campaign_id) =
     await op.confirmation();
 
     console.log(`Campaign started with operation hash: ${op.opHash}`);
-    return op.opHash;
+    return campaign_address;
   } catch (error) {
     console.error('Error starting campaign:', error.message);
     throw error;

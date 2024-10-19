@@ -1,11 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors'); // Add cors package
 
 // MongoDB connection URL and database details
 const mongoURL = 'mongodb://localhost:27017/campaignDB'; // Adjust if using a remote MongoDB server
 
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
+
+// Use body-parser to parse JSON requests
 app.use(bodyParser.json());
 
 // Connect to MongoDB using Mongoose
@@ -31,7 +37,7 @@ const campaignSchema = new mongoose.Schema({
     type: Boolean,
     default: true, // Set default to true for active campaigns
   },
-  donated: { // New field to track donations
+  donated: {
     type: Number,
     default: 0, // Initialize to 0
   },
@@ -44,18 +50,13 @@ const Campaign = mongoose.model('Campaign', campaignSchema);
 app.post('/campaigns', async (req, res) => {
   const { campaign_address, campaign_id, goal } = req.body;
 
-  // Validate incoming data
   if (!campaign_address || !campaign_id) {
     return res.status(400).json({ error: 'Invalid data' });
   }
 
   try {
-    // Create a new campaign instance with default available status and donated amount
     const newCampaign = new Campaign({ campaign_address, campaign_id, goal });
-
-    // Save the campaign to the database
     await newCampaign.save();
-
     res.status(201).json({ message: 'Campaign inserted', campaign: newCampaign });
   } catch (error) {
     console.error('Failed to insert campaign:', error);
@@ -136,7 +137,7 @@ app.delete('/campaigns/:id', async (req, res) => {
 // Donate to Campaign (POST /campaigns/:id/donate)
 app.post('/campaigns/:id/donate', async (req, res) => {
   const campaignId = parseInt(req.params.id);
-  const { amount } = req.body; // Expecting a donation amount in the request body
+  const { amount } = req.body;
 
   if (!amount || amount <= 0) {
     return res.status(400).json({ error: 'Invalid donation amount' });
@@ -145,8 +146,8 @@ app.post('/campaigns/:id/donate', async (req, res) => {
   try {
     const updatedCampaign = await Campaign.findOneAndUpdate(
       { campaign_id: campaignId },
-      { $inc: { donated: amount } }, // Increment the donated amount
-      { new: true } // Return the updated document
+      { $inc: { donated: amount } },
+      { new: true }
     );
 
     if (!updatedCampaign) {
