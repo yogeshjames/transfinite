@@ -1,11 +1,18 @@
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --primary-color: #646cff;
+  --hover-color: #535bf2;
+ 
+  --background-dark:#242424;
+
+  --font-primary: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  font-family: var(--font-primary);
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: var(--background-dark);
+  color: white;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,56 +20,154 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
+  background-color: var(--background-dark);
+  color: var(--text-color-dark);
+  font-family: var(--font-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(23x, 235, 235, 0)) no-repeat, url('your-image.jpg');
+    background-size: cover;
+    color: white; /* or another color that contrasts with black */
+
+
+  
 }
 
+
+/* Headings */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  text-align: center;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+/* Anchor links */
+a {
+  color: var(--primary-color);
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--hover-color);
+}
+
+/* Buttons */
+button {
+  background-color:#ffffff;
+  color: #41403e;
+  border: 2px solid transparent;
+  border-radius: 15px 225px 255px 15px;
+  padding: 0.6em 1.2em;
+  font-size: 1rem;
+  font-family: 'Neucha', sans-serif;
   cursor: pointer;
-  transition: border-color 0.25s;
+  box-shadow: rgba(0, 0, 0, 0.2) 15px 28px 25px -18px;
+  transition: all 0.3s ease;
 }
+
 button:hover {
-  border-color: #646cff;
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px -5px;
+  border-color: var(--primary-color);
 }
-button:focus,
-button:focus-visible {
+
+button:focus {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Media queries for responsive design */
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    background-color: var(--background-light);
+    color: var(--text-color-light);
   }
-  a:hover {
-    color: #747bff;
-  }
+
   button {
     background-color: #f9f9f9;
   }
+}
+
+@media (max-width: 600px) {
+  .grid {
+    width: 100%;
+    flex-direction: column;
+  }
+}
+
+/* Container styles */
+.container, .main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Footer */
+.footer {
+  width: 100%;
+  padding: 1rem 0;
+  border-top: 1px solid #eaeaea;
+  display: flex;
+  justify-content: center;
+}
+
+/* Cards */
+.card {
+  background-color: var(--background-light);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin: 1rem;
+  width: 45%;
+  text-align: left;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-4px);
+}
+
+/* Additional global styles */
+html, body {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+header {
+  padding: 1rem 5%;
+  text-emphasis-color: #ffffff;
+}
+
+input{
+  size: 200px;
+  background-color: #eaeaea;
+}
+.cardrow{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
 }
