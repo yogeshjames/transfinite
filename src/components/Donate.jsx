@@ -23,6 +23,22 @@ const Donate = () => {
       // Call the smart contract function to make a donation
       const operationHash = await makeDonation(campaignIdInt, donationAmount, campaignAddress); // Pass campaignAddress
       setOpHash(operationHash);
+      const response = await fetch(`http://localhost:3000/campaigns/${campaignIdInt}/donate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: donationAmount,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Failed to donate: ${errorData.error}`);
+      }
+
+      console.log('Donation added successfully');
     } catch (error) {
       console.error('Failed to make donation:', error.message);
     }

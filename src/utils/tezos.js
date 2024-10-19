@@ -86,7 +86,7 @@ export const makeDonation = async (campaign_id, amount, campaign_address) => {
     await op.confirmation();
 
     console.log(`Donation made with operation hash: ${op.opHash}`);
-    return op.opHash;
+    return campaign_address;
   } catch (error) {
     console.error('Error making donation:', error.message);
     throw error;

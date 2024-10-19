@@ -1,73 +1,78 @@
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 // MongoDB connection URL and database details
-const url = 'mongodb://localhost:27017'; // Change this for a remote MongoDB server
-const dbName = 'campaignDB';
-const collectionName = 'campaigns';
+const mongoURL = 'mongodb://localhost:27017/campaignDB'; // Adjust if using a remote MongoDB server
 
 const app = express();
 app.use(bodyParser.json());
 
-// Function to connect to MongoDB
-async function connectToMongoDB() {
-  const client = new MongoClient(url, { useUnifiedTopology: true });
-  await client.connect();
-  console.log('Connected to MongoDB');
-  const db = client.db(dbName);
-  return { client, db };
-}
+// Connect to MongoDB using Mongoose
+mongoose.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB via Mongoose'))
+  .catch((err) => console.error('Failed to connect to MongoDB:', err));
+
+// Define the Campaign Schema and Model
+const campaignSchema = new mongoose.Schema({
+  campaign_address: {
+    type: String,
+    required: true,
+  },
+  campaign_id: {
+    type: Number,
+    required: true,
+    unique: true,
+  },
+  goal: {
+    type: Number,
+  },
+  available: {
+    type: Boolean,
+    default: true, // Set default to true for active campaigns
+  },
+  donated: { // New field to track donations
+    type: Number,
+    default: 0, // Initialize to 0
+  },
+});
+
+// Create the Campaign model based on the schema
+const Campaign = mongoose.model('Campaign', campaignSchema);
 
 // Insert Campaign (POST /campaigns)
 app.post('/campaigns', async (req, res) => {
-  const { campaign_address, campaign_id, available } = req.body;
+  const { campaign_address, campaign_id, goal } = req.body;
 
-  if (!campaign_address || !campaign_id || typeof available !== 'boolean') {
+  // Validate incoming data
+  if (!campaign_address || !campaign_id) {
     return res.status(400).json({ error: 'Invalid data' });
   }
 
-  const campaign = { campaign_address, campaign_id, available };
-
   try {
-    const { client, db } = await connectToMongoDB();
-    const collection = db.collection(collectionName);
-    
-    await collection.insertOne(campaign);
-    client.close();
+    // Create a new campaign instance with default available status and donated amount
+    const newCampaign = new Campaign({ campaign_address, campaign_id, goal });
 
-    res.status(201).json({ message: 'Campaign inserted', campaign });
+    // Save the campaign to the database
+    await newCampaign.save();
+
+    res.status(201).json({ message: 'Campaign inserted', campaign: newCampaign });
   } catch (error) {
+    console.error('Failed to insert campaign:', error);
+    if (error.code === 11000) {
+      return res.status(409).json({ error: 'Campaign ID must be unique' });
+    }
     res.status(500).json({ error: 'Failed to insert campaign' });
   }
 });
 
-// Get All Campaigns (GET /campaigns)
-app.get('/campaigns', async (req, res) => {
-  try {
-    const { client, db } = await connectToMongoDB();
-    const collection = db.collection(collectionName);
-
-    const campaigns = await collection.find({}).toArray();
-    client.close();
-
-    res.status(200).json(campaigns);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch campaigns' });
-  }
-});
-
-// Get Available Campaigns (GET /campaigns/available)
+// Get All Available Campaigns (GET /campaigns/available)
 app.get('/campaigns/available', async (req, res) => {
   try {
-    const { client, db } = await connectToMongoDB();
-    const collection = db.collection(collectionName);
-
-    const availableCampaigns = await collection.find({ available: true }).toArray();
-    client.close();
-
+    const availableCampaigns = await Campaign.find({ available: true });
     res.status(200).json(availableCampaigns);
   } catch (error) {
+    console.error('Failed to fetch available campaigns:', error);
     res.status(500).json({ error: 'Failed to fetch available campaigns' });
   }
 });
@@ -77,18 +82,13 @@ app.get('/campaigns/:id', async (req, res) => {
   const campaignId = parseInt(req.params.id);
 
   try {
-    const { client, db } = await connectToMongoDB();
-    const collection = db.collection(collectionName);
-
-    const campaign = await collection.findOne({ campaign_id: campaignId });
-    client.close();
-
+    const campaign = await Campaign.findOne({ campaign_id: campaignId });
     if (!campaign) {
       return res.status(404).json({ error: 'Campaign not found' });
     }
-
     res.status(200).json(campaign);
   } catch (error) {
+    console.error('Failed to fetch campaign:', error);
     res.status(500).json({ error: 'Failed to fetch campaign' });
   }
 });
@@ -99,21 +99,19 @@ app.put('/campaigns/:id', async (req, res) => {
   const { campaign_address, available } = req.body;
 
   try {
-    const { client, db } = await connectToMongoDB();
-    const collection = db.collection(collectionName);
-
-    const updated = await collection.updateOne(
-      { campaign_id: campaignId,campaign_address:campaign_address },
-      { $set: {  available } }
+    const updatedCampaign = await Campaign.findOneAndUpdate(
+      { campaign_id: campaignId },
+      { campaign_address, available },
+      { new: true, runValidators: true }
     );
-    client.close();
 
-    if (updated.matchedCount === 0) {
+    if (!updatedCampaign) {
       return res.status(404).json({ error: 'Campaign not found' });
     }
 
-    res.status(200).json({ message: 'Campaign updated' });
+    res.status(200).json({ message: 'Campaign updated', campaign: updatedCampaign });
   } catch (error) {
+    console.error('Failed to update campaign:', error);
     res.status(500).json({ error: 'Failed to update campaign' });
   }
 });
@@ -123,19 +121,42 @@ app.delete('/campaigns/:id', async (req, res) => {
   const campaignId = parseInt(req.params.id);
 
   try {
-    const { client, db } = await connectToMongoDB();
-    const collection = db.collection(collectionName);
-
-    const deleted = await collection.deleteOne({ campaign_id: campaignId });
-    client.close();
-
-    if (deleted.deletedCount === 0) {
+    const deletedCampaign = await Campaign.findOneAndDelete({ campaign_id: campaignId });
+    if (!deletedCampaign) {
       return res.status(404).json({ error: 'Campaign not found' });
     }
 
-    res.status(200).json({ message: 'Campaign deleted' });
+    res.status(200).json({ message: 'Campaign deleted', campaign: deletedCampaign });
   } catch (error) {
+    console.error('Failed to delete campaign:', error);
     res.status(500).json({ error: 'Failed to delete campaign' });
+  }
+});
+
+// Donate to Campaign (POST /campaigns/:id/donate)
+app.post('/campaigns/:id/donate', async (req, res) => {
+  const campaignId = parseInt(req.params.id);
+  const { amount } = req.body; // Expecting a donation amount in the request body
+
+  if (!amount || amount <= 0) {
+    return res.status(400).json({ error: 'Invalid donation amount' });
+  }
+
+  try {
+    const updatedCampaign = await Campaign.findOneAndUpdate(
+      { campaign_id: campaignId },
+      { $inc: { donated: amount } }, // Increment the donated amount
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedCampaign) {
+      return res.status(404).json({ error: 'Campaign not found' });
+    }
+
+    res.status(200).json({ message: 'Donation added', campaign: updatedCampaign });
+  } catch (error) {
+    console.error('Failed to donate:', error);
+    res.status(500).json({ error: 'Failed to donate' });
   }
 });
 

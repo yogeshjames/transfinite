@@ -6,7 +6,7 @@ const StartCampaign = () => {
   const [goalAmount, setGoalAmount] = useState('');
   const [campaignId, setCampaignId] = useState('');
   const [loading, setLoading] = useState(false);
-  const [opHash, setOpHash] = useState(null);
+  const [adress, setadress] = useState(false);
 
   const handleStartCampaign = async () => {
     setLoading(true);
@@ -24,8 +24,27 @@ const StartCampaign = () => {
       }
 
       // Call the smart contract function to start a campaign
-      const operationHash = await startCampaign(title, goalAmountInt, campaignIdInt);
-      setOpHash(operationHash);
+      const address = await startCampaign(title, goalAmountInt, campaignIdInt);
+        setadress(true);
+      const response = await fetch('http://localhost:3000/campaigns', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          campaign_address: address, // Replace with the actual campaign address
+          campaign_id: campaignIdInt,
+          goal:goalAmount,
+          available: true // Default to true
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Failed to add campaign to backend: ${errorData.error}`);
+      }
+
+      console.log('Campaign added to backend successfully');
     } catch (error) {
       console.error('Failed to start campaign:', error.message);
     }
@@ -56,7 +75,7 @@ const StartCampaign = () => {
       <button onClick={handleStartCampaign} disabled={loading}>
         {loading ? 'Starting Campaign...' : 'Start Campaign'}
       </button>
-      {opHash && <p>Campaign started! Operation hash: {opHash}</p>}
+      {adress && <p>Campaign started! Operation hash:</p>}
     </div>
   );
 };
