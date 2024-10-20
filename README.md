@@ -1,8 +1,4 @@
-# React + Vite
+# TEZ_RAISE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The product build to redefine crowdfunding by eliminating the middlemen and putting transparency front and center. Built on the cutting-edge Tezos blockchain, our platform lets creators launch their ideas directly into the world, while supporters fund them with zero friction. No banks. No delays. Just instant, secure, and verifiable transactions governed by smart contracts, ensuring every coin goes exactly where it should. Ready to reshape the future of innovation?
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
