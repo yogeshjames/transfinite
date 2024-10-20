@@ -7,7 +7,7 @@ The product build to redefine crowdfunding by eliminating the middlemen and putt
 - Instant refund if a campaign doesn't meet its goal
 - Track every single unit of money
 - remove location restrictions
-- Make game developers life easy by using NFT's
+-
 
 ## Tech Stack
 
