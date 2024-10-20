@@ -48,7 +48,7 @@ npm run dev
 ```
 
 ###  link of  [Ghostnet contract](https://ghostnet.tzkt.io/KT1ST7nQQ2mRreMfmsNnovChtfktTuf6t38M/operations/)
-### smart contract address:: KT1ST7nQQ2mRreMfmsNnovChtfktTuf6t38M
+### Smart Contract Address:: KT1ST7nQQ2mRreMfmsNnovChtfktTuf6t38M
 ### Project [Showcase](https://www.youtube.com/playlist?list=PLqxZIb6wmNoyQ_jR9qsHmpAithiu-R2FL) 
 
 
