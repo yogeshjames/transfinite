@@ -63,19 +63,22 @@ const Donate = () => {
       <h2>Make a Donation</h2>
       <div className="donation-form">
         <input 
-          type="number" 
+          type="number"
+          color='black'  
           placeholder="Campaign ID" 
           value={campaignId} 
           onChange={(e) => setCampaignId(e.target.value)} 
         />
         <input 
-          type="number" 
+          type="number"
+          color='black' 
           placeholder="Donation Amount (in tez)" 
           value={amount} 
           onChange={(e) => setAmount(e.target.value)} 
         />
         <input 
           type="text" 
+          color='black' 
           placeholder="Campaign Address" 
           value={campaignAddress} 
           onChange={(e) => setCampaignAddress(e.target.value)} 

@@ -11,10 +11,12 @@ const Wallet = () => {
       const address = await connectWallet();
       if (address) {
         setWalletAddress(address);
+        toast.dismiss(); // Dismiss any existing toasts
         toast.success('Wallet connected successfully!'); // Display success toast
       }
     } catch (error) {
       console.error('Error connecting wallet:', error.message);
+      toast.dismiss(); // Dismiss any existing toasts
       toast.error(`Error connecting wallet: ${error.message}`); // Display error toast
     }
   };
@@ -30,11 +32,11 @@ const Wallet = () => {
           fontSize: '16px',            // Font size for text
           border: 'none',              // No border for the button
           borderRadius: '5px',        // Rounded corners
-          cursor: 'pointer',          // Pointer cursor on hover
+          cursor: 'pointer',           // Pointer cursor on hover
           transition: 'background-color 0.3s', // Smooth transition for background color
         }}
       >
-        {walletAddress ? 'Connected' : 'Connect  Wallet'}
+        {walletAddress ? 'Connected' : 'Connect Wallet'}
       </button>
 
       {/* Toast container to render toast notifications */}

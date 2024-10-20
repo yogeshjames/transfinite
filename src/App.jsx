@@ -17,7 +17,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1 className="title">Tez_rise</h1>
+      <h1 className="title">TEZ_RAISE</h1>
       <header className="header">
         <div className="wallet-container">
           <Wallet />

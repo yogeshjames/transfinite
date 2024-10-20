@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors'); // Add cors package
 
 // MongoDB connection URL and database details
-const mongoURL = 'mongodb://localhost:27017/campaignDB'; // Adjust if using a remote MongoDB server
+const mongoURL = 'mongodb+srv://snipperattack882:E25fJa2uk8KNGq5x@cluster0.bcde9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'; // Adjust if using a remote MongoDB server
 
 const app = express();
 
