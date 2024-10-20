@@ -44,6 +44,10 @@ npm install
 npm run dev
 ```
 
+###  link of  [Ghostnet contract](https://ghostnet.tzkt.io/KT1ST7nQQ2mRreMfmsNnovChtfktTuf6t38M/operations/)
+
+### Project [Showcase](https://www.youtube.com/playlist?list=PLqxZIb6wmNoyQ_jR9qsHmpAithiu-R2FL) 
+
 
 
   
