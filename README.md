@@ -18,7 +18,10 @@ The product build to redefine crowdfunding by eliminating the middlemen and putt
 
 **Backend:**
 - Node.js with Express
+
+**Contracts**
 - smartpy
+- tezos
 
 # How to run
 ## After cloning the repo 
