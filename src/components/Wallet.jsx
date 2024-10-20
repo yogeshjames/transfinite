@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { connectWallet } from '../utils/tezos';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import toastify styles
 
 const Wallet = () => {
   const [walletAddress, setWalletAddress] = useState(null);
@@ -9,9 +11,11 @@ const Wallet = () => {
       const address = await connectWallet();
       if (address) {
         setWalletAddress(address);
+        toast.success('Wallet connected successfully!'); // Display success toast
       }
     } catch (error) {
       console.error('Error connecting wallet:', error.message);
+      toast.error(`Error connecting wallet: ${error.message}`); // Display error toast
     }
   };
 
@@ -21,11 +25,7 @@ const Wallet = () => {
         {walletAddress ? 'Connected' : 'Connect Temple Wallet'}
       </button>
 
-      {walletAddress && (
-        <div>
-          <p>Wallet Address: {walletAddress}</p>
-        </div>
-      )}
+      {/* Toast container to render toast notifications */}
     </div>
   );
 };

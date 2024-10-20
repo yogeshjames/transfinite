@@ -1,14 +1,30 @@
-// src/components/Tables/DashboardTableRow.jsx
 import React from 'react';
-import { Tr, Td } from '@chakra-ui/react'; // Import necessary components from Chakra UI
+import { Flex, Text, Box } from "@chakra-ui/react"; // Using Flex and Box for layout
+import { toast } from 'react-toastify';
 
 const DashboardTableRow = ({ campaignId, campaign_address, name, fundingGoal, currentFunding }) => {
+    
+    const handleRowClick = () => {
+        // Trigger a toast when the row is clicked
+        toast.info(`Campaign ID: ${campaignId} - ${name} clicked!`);
+    };
+
     return (
-        <Tr><Td>{campaignId}</Td> {/* Display Campaign ID */}
-            <Td>{campaign_address}</Td> {/* Display Creator (address) */}
-            <Td>{name}</Td> {/* Display Description */}
-            <Td>{`$${(fundingGoal / 1000000).toFixed(2)}`}</Td> {/* Display Funding Goal */}
-            <Td>{`$${(currentFunding / 1000000).toFixed(2)}`}</Td> {/* Display Current Funding */}</Tr>
+        <Flex 
+            justify="space-between" 
+            align="center" 
+            paddingY={2} 
+            borderBottom="1px" 
+            borderColor="gray.200" 
+            cursor="pointer"
+            onClick={handleRowClick}
+        >
+            <Text width="15%">{campaignId}</Text> {/* Display Campaign ID */}
+            <Text width="25%">{campaign_address}</Text> {/* Display Creator (address) */}
+            <Text width="30%">{name}</Text> {/* Display Description */}
+            <Text width="15%">{`$${(fundingGoal / 1000000).toFixed(2)}`}</Text> {/* Display Funding Goal */}
+            <Text width="15%">{`$${(currentFunding / 1000000).toFixed(2)}`}</Text> {/* Display Current Funding */}
+        </Flex>
     );
 };
 

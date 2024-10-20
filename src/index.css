@@ -1,17 +1,13 @@
-
 :root {
   --primary-color: #646cff;
   --hover-color: #535bf2;
- 
-  --background-dark:#242424;
 
+  --background-dark: #242424;
   --font-primary: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   font-family: var(--font-primary);
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light dark;
-  background-color: var(--background-dark);
   color: white;
 
   font-synthesis: none;
@@ -20,23 +16,24 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Ensure the body takes full viewport height */
+}
 body {
   margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: var(--background-dark);
-  color: var(--text-color-dark);
+
+  /* Apply a smooth linear gradient from light grey to black */
+  background: linear-gradient(to bottom, lightgrey, black) !important;
+
+  color: white; /* Ensure contrast */
   font-family: var(--font-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
-
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(23x, 235, 235, 0)) no-repeat, url('your-image.jpg');
-    background-size: cover;
-    color: white; /* or another color that contrasts with black */
-
-
-  
 }
 
 
@@ -61,10 +58,10 @@ a:hover {
 
 /* Buttons */
 button {
-  background-color:#ffffff;
+  background-color: #ffffff;
   color: #41403e;
   border: 2px solid transparent;
-  border-radius: 15px 225px 255px 15px;
+  border-radius: 225px 225px 255px 225px;
   padding: 0.6em 1.2em;
   font-size: 1rem;
   font-family: 'Neucha', sans-serif;
@@ -82,18 +79,7 @@ button:focus {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* Media queries for responsive design */
-@media (prefers-color-scheme: light) {
-  :root {
-    background-color: var(--background-light);
-    color: var(--text-color-light);
-  }
-
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
+/* Media queries */
 @media (max-width: 600px) {
   .grid {
     width: 100%;
@@ -154,11 +140,12 @@ header {
   text-emphasis-color: #ffffff;
 }
 
-input{
+input {
   size: 200px;
   background-color: #eaeaea;
 }
-.cardrow{
+
+.cardrow {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -169,5 +156,17 @@ input{
   display: flex;
   align-items: center;
   justify-content: center;
-  
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.donation-image {
+  width: 80%;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
