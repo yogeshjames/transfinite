@@ -20,7 +20,7 @@
 /* Wallet container is placed in the header */
 .wallet-container {
   position: fixed; /* Allow normal flow */
-  right:0vh;
+  right:3vh;
   top:5vh;
 }
 
@@ -35,14 +35,19 @@
 
 /* About section now below everything else */
 .about-section {
-  text-align: center;
-  padding: 20px;
-  background-color: grey; /* Light background */
-  margin-top: 50px; /* More space between the top components and about section */
-  border-radius: 10px;
-  color: #333; /* Dark text */
+  text-align: left;
+  margin-top: 20px;
 }
 
+.about-section h2 {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.about-section p {
+  font-size: 12px;
+  line-height: 1.6;
+}
 /* Horizontal layout for the Start Campaign and Donate cards */
 .card-container {
   display: flex;
@@ -55,8 +60,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px; /* Fixed width */
-  height: 100px; /* Fixed height */
+  width: 190px !important; /* Reduced width */
+  height: 50px; /* Fixed height */
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -66,6 +71,7 @@
   text-align: center;
   font-size: 18px; /* Ensure text is large enough */
 }
+
 
 .card:hover {
   background-color: #e0e0e0;

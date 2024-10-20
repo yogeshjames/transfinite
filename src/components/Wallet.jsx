@@ -21,8 +21,20 @@ const Wallet = () => {
 
   return (
     <div>
-      <button onClick={handleConnectWallet}>
-        {walletAddress ? 'Connected' : 'Connect Temple Wallet'}
+      <button
+        onClick={handleConnectWallet}
+        style={{
+          backgroundColor: '#F0BD36', // Button background color
+          color: '#fff',               // White text color
+          padding: '10px 20px',        // Padding for the button
+          fontSize: '16px',            // Font size for text
+          border: 'none',              // No border for the button
+          borderRadius: '5px',        // Rounded corners
+          cursor: 'pointer',          // Pointer cursor on hover
+          transition: 'background-color 0.3s', // Smooth transition for background color
+        }}
+      >
+        {walletAddress ? 'Connected' : 'Connect  Wallet'}
       </button>
 
       {/* Toast container to render toast notifications */}

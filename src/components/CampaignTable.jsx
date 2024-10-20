@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Box, Text, VStack, Divider } from "@chakra-ui/react"; // Using Flex and Box for layout
-import DashboardTableRow from "./DashboardTableRow";
 import { fetchCampaignById } from '../utils/tezos';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify'; 
+import { toast } from 'react-toastify'; 
 import 'react-toastify/dist/ReactToastify.css'; 
-
+import DashboardTableRow from './DashboardTableRow'; // Assuming this component is already working
 
 class ErrorBoundary extends React.Component {
     state = { hasError: false };
@@ -25,7 +23,6 @@ class ErrorBoundary extends React.Component {
       return this.props.children;
     }
 }
-  
 
 const CampaignTable = () => {
     const [campaignData, setCampaignData] = useState([]);
@@ -71,33 +68,88 @@ const CampaignTable = () => {
 
     return (
         <div>
-            {/* Using Flex layout instead of Table */}
-            <VStack spacing={4} align="stretch">
-                <Box padding={4} backgroundColor="gray.100" borderRadius="md" boxShadow="sm">
-                    {/* Row for headers */}
-                    <Flex justify="space-between" align="center" borderBottom="2px" borderColor="gray.200" paddingY={2}>
-                        <Text fontWeight="bold" width="15%">Campaign ID</Text>
-                        <Text fontWeight="bold" width="25%">Fund Address</Text>
-                        <Text fontWeight="bold" width="30%">Description</Text>
-                        <Text fontWeight="bold" width="15%">Funding Goal</Text>
-                        <Text fontWeight="bold" width="15%">Current Funding</Text>
-                    </Flex>
-                    <Divider marginY={2} />
-                    {/* Row for each campaign */}
-                    {campaignData.map((campaign) => (
-                        <DashboardTableRow
-                            key={campaign.campaignId}
-                            campaignId={campaign.campaignId}
-                            campaign_address={campaign.creator}
-                            name={campaign.description}
-                            fundingGoal={campaign.fundingGoal}
-                            currentFunding={campaign.currentFunding}
-                        />
-                    ))}
-                </Box>
-            </VStack>
-
-           
+            {/* Table layout */}
+            <table 
+    style={{
+        width: '100%',
+        borderCollapse: 'collapse',
+        backgroundColor: '#2D2D2D', // Dark gray background for the table
+        border: '1px solid #444',   // Border around the table
+    }}
+>
+    <thead>
+        <tr>
+            <th 
+                style={{
+                    padding: '8px',
+                    textAlign: 'left',
+                    borderBottom: '2px solid #ccc',
+                    color: 'white', // White text color for headers
+                    backgroundColor: '#333', // Darker background for headers
+                }}
+            >
+                Campaign ID
+            </th>
+            <th 
+                style={{
+                    padding: '8px',
+                    textAlign: 'left',
+                    borderBottom: '2px solid #ccc',
+                    color: 'white',
+                    backgroundColor: '#333',
+                }}
+            >
+                Fund Address
+            </th>
+            <th 
+                style={{
+                    padding: '8px',
+                    textAlign: 'left',
+                    borderBottom: '2px solid #ccc',
+                    color: 'white',
+                    backgroundColor: '#333',
+                }}
+            >
+                Description
+            </th>
+            <th 
+                style={{
+                    padding: '8px',
+                    textAlign: 'left',
+                    borderBottom: '2px solid #ccc',
+                    color: 'white',
+                    backgroundColor: '#333',
+                }}
+            >
+                Funding Goal
+            </th>
+            <th 
+                style={{
+                    padding: '8px',
+                    textAlign: 'left',
+                    borderBottom: '2px solid #ccc',
+                    color: 'white',
+                    backgroundColor: '#333',
+                }}
+            >
+                Current Funding
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {/* Row for each campaign */}
+        {campaignData.map((campaign) => (
+            <DashboardTableRow
+                key={campaign.campaignId}
+                campaignId={campaign.campaignId}
+                campaign_address={campaign.creator}
+                name={campaign.description}
+                fundingGoal={campaign.fundingGoal}
+                currentFunding={campaign.currentFunding}
+            />
+        ))}
+    </tbody>
+</table>
         </div>
     );
 };

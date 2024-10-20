@@ -29,7 +29,7 @@ body {
   min-height: 100vh;
 
   /* Apply a smooth linear gradient from light grey to black */
-  background: linear-gradient(to bottom, lightgrey, black) !important;
+  background: linear-gradient(to bottom, rgb(105, 103, 103), black) !important;
 
   color: white; /* Ensure contrast */
   font-family: var(--font-primary);

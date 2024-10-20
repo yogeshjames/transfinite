@@ -1,5 +1,4 @@
 import React from 'react';
-import { Flex, Text, Box } from "@chakra-ui/react"; // Using Flex and Box for layout
 import { toast } from 'react-toastify';
 
 const DashboardTableRow = ({ campaignId, campaign_address, name, fundingGoal, currentFunding }) => {
@@ -10,21 +9,13 @@ const DashboardTableRow = ({ campaignId, campaign_address, name, fundingGoal, cu
     };
 
     return (
-        <Flex 
-            justify="space-between" 
-            align="center" 
-            paddingY={2} 
-            borderBottom="1px" 
-            borderColor="gray.200" 
-            cursor="pointer"
-            onClick={handleRowClick}
-        >
-            <Text width="15%">{campaignId}</Text> {/* Display Campaign ID */}
-            <Text width="25%">{campaign_address}</Text> {/* Display Creator (address) */}
-            <Text width="30%">{name}</Text> {/* Display Description */}
-            <Text width="15%">{`$${(fundingGoal / 1000000).toFixed(2)}`}</Text> {/* Display Funding Goal */}
-            <Text width="15%">{`$${(currentFunding / 1000000).toFixed(2)}`}</Text> {/* Display Current Funding */}
-        </Flex>
+        <tr onClick={handleRowClick} style={{ cursor: 'pointer' }}>
+            <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{campaignId}</td>
+            <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{campaign_address}</td>
+            <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>{name}</td>
+            <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>${(fundingGoal / 1000000).toFixed(2)}</td>
+            <td style={{ padding: '8px', borderBottom: '1px solid #ddd' }}>${(currentFunding / 1000000).toFixed(2)}</td>
+        </tr>
     );
 };
 

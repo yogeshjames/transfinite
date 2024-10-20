@@ -53,7 +53,7 @@ const App = () => {
       {/* About section */}
       {visibleDiv === null && (
   <div className="about-section">
-    <h2>About Tez_rise</h2>
+    <h2>About </h2>
     <p>
       We are a public crowdfunding platform built on the Tezos SmartPy blockchain, empowering individuals and organizations to start and support meaningful campaigns. With Tez_rise, users can securely launch fundraising initiatives or contribute to causes they care about, leveraging the transparency, security, and efficiency of blockchain technology. Our platform ensures that every transaction is immutable and trustless, providing a decentralized solution for crowdfunding with low fees, global accessibility, and complete transparency. Whether you're a creator seeking support or a donor looking to make an impact, Tez_rise makes it easy to connect and contribute in a secure and innovative way.
     </p>
