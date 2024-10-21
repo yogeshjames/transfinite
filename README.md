@@ -38,7 +38,7 @@ node index.js
 ```
 ## open new Terminal
 ```bash
-cd src/
+cd src/frontend
 ```
 ```bash
 npm install
